@@ -18,10 +18,6 @@ public class PatrolScript : MonoBehaviour
             patrolPoints.Add(child.position);
         }
     }
-    void Start()
-    {
-        
-    }
 
 
     void Update()

@@ -4,9 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Gravity
   - Enemy
-  - StaticPoint
+  - Floor
   layers:
   - Default
   - TransparentFX

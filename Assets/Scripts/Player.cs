@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.LightTransport;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -18,9 +19,10 @@ public class Player : MonoBehaviour, IDamageable
     private Animator anim;
     private Vector3 knockback;
     private bool jumpAvailable;
+    private float jumpTimer;
 
     internal float attackDamage;
-    private float health;
+    internal float health;
     
     private void Awake()
     {
@@ -37,6 +39,8 @@ public class Player : MonoBehaviour, IDamageable
     // Update is called once per frame
     void Update()
     {
+        jumpTimer += Time.deltaTime;
+
         hInput = Input.GetAxis("Horizontal");
         anim.SetFloat("xSpeed", Mathf.Abs(hInput));
         anim.SetFloat("ySpeed", rb.linearVelocityY);
@@ -45,6 +49,12 @@ public class Player : MonoBehaviour, IDamageable
         if(Input.GetKeyDown(KeyCode.Space) && jumpAvailable == true)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            jumpAvailable = false;
+            jumpTimer = 0;
+        }
+        if(jumpTimer > 0.5f)
+        {
+            jumpAvailable = true;
         }
 
     }
@@ -62,7 +72,7 @@ public class Player : MonoBehaviour, IDamageable
     private void FixedUpdate()
     {
         //normalizes a value (health) from 0 to 1 (value - maxvalue)/ (maxvalue - minvalue)
-        healthBar.fillAmount = (health - 0)/(100 - 0);
+        healthBar.fillAmount = (health - 0)/(10 - 0);
         rb.AddForce(new Vector2(hInput, 0) * movementForce, ForceMode2D.Force);
     }
 
@@ -83,6 +93,13 @@ public class Player : MonoBehaviour, IDamageable
             //divide direction by distance
             knockback = facing / distance;
             TakeDamage(attackDamage);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("End"))
+        {
+            SceneManager.LoadScene(1);
         }
     }
 }

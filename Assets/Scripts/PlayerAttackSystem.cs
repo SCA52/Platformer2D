@@ -10,8 +10,6 @@ public class PlayerAttackSystem : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private Player player; 
 
-    private RaycastHit2D hook;
-
     private float timer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -41,11 +39,13 @@ public class PlayerAttackSystem : MonoBehaviour
         foreach (Collider2D item in results)
         {
             Debug.Log("test1");
-            if (item.TryGetComponent(out IDamageable a))
+            if (item.gameObject.CompareTag("Enemy"))
             {
-                
-                Debug.Log("test2");
-                a.TakeDamage(player.attackDamage);
+                if (item.TryGetComponent(out IDamageable objectHit))
+                {
+                    Debug.Log("test2");
+                    objectHit.TakeDamage(player.attackDamage);
+                }
             }
             Debug.Log("test3");
 
