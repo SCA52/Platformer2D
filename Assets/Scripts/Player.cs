@@ -1,12 +1,6 @@
-using Microsoft.Unity.VisualStudio.Editor;
-using Unity.VisualScripting;
-using UnityEditor;
+
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.LightTransport;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour, IDamageable
 {
